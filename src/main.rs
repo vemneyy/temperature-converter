@@ -2,19 +2,18 @@ use std::io;
 
 fn main() {
     println!("Введите режим конвертации:\n1 - Фаренгейт -> Цельсий\n2 - Цельсий -> Фаренгейт");
-    let mut mode= String::new();
 
-    io::stdin()
+
+    let mode: u8 = loop {
+        let mut mode= String::new();
+
+        io::stdin()
         .read_line(&mut mode)
         .expect("Error");
 
-    let mode: u8 = loop {
         match mode.trim().parse() {
-            Ok(temp) => break temp,
-            Err(_) => {
-                println!("Try again!");
-                continue;
-            },
+            Ok(temp) if temp == 1 || temp == 2 => break temp,
+            _ => println!("Некоректный режим конвертации"),
         }
     };
 
@@ -41,4 +40,8 @@ fn main() {
         let second_var: f32 = (first_var * 9.0/5.0) + 32.0;
         println!("{}°C = {}°F", first_var, second_var);
     }
+
+    println!("Нажмите Enter, чтобы выйти...");
+    let mut exit = String::new();
+    io::stdin().read_line(&mut exit).expect("Error");
 }
